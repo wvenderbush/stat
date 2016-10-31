@@ -9,28 +9,41 @@
 void fileSizer(long bytes){
 	printf("File Size: ");
 	long workbytes = bytes;
-	if (bytes > 1024 * 1024 * 1024){
+	if (bytes >> 30){
 		printf("%li gigabytes, ", workbytes>>30);
-		workbytes = workbytes%1024;
+		workbytes = workbytes % 1024;
 	}
-	if (bytes > 1024 * 1024){
+	if (bytes >> 20){
 		printf("%li megabytes, ", workbytes>>20);
-		workbytes = workbytes%1024;
+		workbytes = workbytes % 1024;
 	}
-	if (bytes > 1024){
+	if (bytes >> 10){
 		printf("%li kilobytes, ", workbytes>>10);
-		workbytes = workbytes%1024;
+		workbytes = workbytes % 1024;
 	}
 	printf("%li bytes\n", workbytes);
 }
 
 void printPerms(int octal){
-	int user = (octal>>6) &111;
-	int group = ((octal>>3) &100111);
-	int public = octal &111;
-	printf("User Permissions: %#o\n", user);
-	printf("User Permissions: %#o\n", group);
-	printf("User Permissions: %#o\n", public);
+  int user = (octal>>6) % 8;
+  int group = ((octal>>3) % 8);
+  int public = octal % 8;
+  //printf("User Permissions: %#o\n", user);
+  //printf("User Permissions: %#o\n", group);
+  //printf("User Permissions: %#o\n", public);
+
+  int perms[] = {user, group, public};
+  int i = 0;
+  int item;
+  for (i; i < 3; i++){
+    item = perms[i];
+    //printf("%#o", item);
+    //printf("%#o", item & 010);
+    printf((item & 4) ? "r" : "-");
+    printf((item & 2) ? "w" : "-");
+    printf((item & 1) ? "x" : "-");
+  }
+  printf("\n");
 
 
 }
